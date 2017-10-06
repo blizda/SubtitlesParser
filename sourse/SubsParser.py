@@ -21,12 +21,12 @@ class SubsReader:
         return detector.result['encoding']
 
     def __fileInLineReader__(self, filename):
-        file = open(filename, encoding=self.__fileEncoding__(filename))
-        allLines = ''
-        for line in file:
-            clearLine = re.sub('<i>|</i>|\d+:\d+:\d+,\d+ --> \d+:\d+:\d+,\d+|\n+|\r+|^\d+', '', line)
-            if clearLine:
-                allLines += ' ' + clearLine.replace('{\\an8}', '')
+        with open(filename, encoding=self.__fileEncoding__(filename)) as file:
+            allLines = ''
+            for line in file:
+                clearLine = re.sub('<i>|</i>|\d+:\d+:\d+,\d+ --> \d+:\d+:\d+,\d+|\n+|\r+|^\d+', '', line)
+                if clearLine:
+                    allLines += ' ' + clearLine.replace('{\\an8}', '')
         return allLines
 
     def __readFiles__(self, wayToDir):
@@ -66,7 +66,6 @@ class SubsParser(SubsReader):
         for text in listOfTexts:
             listOfTf.append(self.__tf__(text))
         return listOfTf
-
 
     def __idf__(self, textsList):
         korpDic = {}
